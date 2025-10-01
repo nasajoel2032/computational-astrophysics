@@ -152,11 +152,11 @@ def run(a,e, m1, m2, mu):
         time.set_text(f"Time: {t[frame]/3.15576e7:.1f} years")
         return star1, star2, path1, path2, time
 
-    speed = 1
+    speed = 40
     frames = range(0,len(x1),speed)
     anim = FuncAnimation(fig, update, frames=frames, init_func=init, interval=60, blit=False, repeat=True)
-    plt.savefig("kepler_binary_plot.png", dpi=300, bbox_inches='tight', facecolor=fig.get_facecolor())
     return run
+
 
 if __name__ == "__main__":
     anim = run(a, e, m1, m2, mu)
