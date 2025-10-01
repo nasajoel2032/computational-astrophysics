@@ -27,9 +27,9 @@ def kepler(a,e, mu):
     - Newtonian mechanics (non-relativistic speeds and weak gravitational fields)
     Inputs:
     a = semi-major axis (m) 
-    e = eccentricity (unitless), 0 = circle, range: 0-1
+    e = eccentricity (unitless), range: 0-1
     mu = standard gravitational parameter (km^3/s^2) = GM where G is the gravitational constant and M is the mass of the central body (kg)
-    Returns:
+    Outputs:
     x = x position (m)
     y = y position (m)
     T = orbital period (s)
@@ -126,3 +126,18 @@ if __name__ == "__main__":
     anim = animate(a,e,mu)
     plt.show()
     # HTML(anim.to_jshtml())  # For Jupyter Notebooks
+# ---------- Generate Data ----------
+x, y, T, t, E, r, v, U, KE, ME = kepler(a,e,mu)
+data = {
+    'Time Elapsed (s)': t,
+    'X Position (m)': x,
+    'Y Position (m)': y,
+    'Eccentric Anomaly (rad)': E,
+    'Orbital Radius (m)': r,
+    'Orbital Velocity (m/s)': v,
+    'Gravitational Potential Energy (J)': U,
+    'Kinetic Energy (J)': KE,
+    'Mechanical Energy (J)': ME
+}
+df = pd.DataFrame(data)
+df.to_csv('kepler_two_body_data.csv', index=False)
