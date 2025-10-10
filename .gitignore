@@ -9,5 +9,4 @@ ENV/
 .venv/
 .ipynb_checkpoints/
 .vscode/
-*.csv
 .DS_Store

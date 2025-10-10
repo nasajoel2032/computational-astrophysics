@@ -1,6 +1,7 @@
 # --------------- Kepler Two Body Problem Simulation ---------------
 
 # ---------- Import Libraries ----------
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,14 +9,17 @@ from scipy.optimize import brentq
 from matplotlib.animation import FuncAnimation
 from IPython.display import HTML
 from mpl_toolkits.mplot3d import Axes3D
-# ---------- Define Constants ----------
+# ---------- Parameters ----------
+
 G = 6.6743e-11 # (m^3)/(kg*s^2) 
 m_foci = 1.989e30 # mass of the sun (kg)
 m_planet = 5.972e24 # mass of the earth (kg)
 mu = G*m_foci # standard gravitational parameter (m^3/s^2)
 e = 0.0167 # eccentricity. range: 0-1, 0 = circle
 a = 1.496e11 # semi-major axis (m) (1 AU)
+
 # ---------- Define Functions ----------
+
 def kepler(a,e, mu): 
     """ 
     Uses Kepler's Laws to solve for physical and orbital parameters of a two body system
@@ -28,7 +32,7 @@ def kepler(a,e, mu):
     Inputs:
     a = semi-major axis (m) 
     e = eccentricity (unitless), range: 0-1
-    mu = standard gravitational parameter (km^3/s^2) = GM where G is the gravitational constant and M is the mass of the central body (kg)
+    mu = standard gravitational parameter (m^3/s^2) = GM where G is the gravitational constant and M is the mass of the central body (kg)
     Outputs:
     x = x position (m)
     y = y position (m)
@@ -41,7 +45,7 @@ def kepler(a,e, mu):
     KE = kinetic energy (J)
     ME = mechanical energy (J)
     """
-    points = 300 # Manipulate as needed for running the simulation
+    points = 500 # Manipulate as needed for running the simulation
     n = np.sqrt(mu/a**3)
     T = 2*np.pi*np.sqrt(a**3/mu)
     t = np.linspace(0,T,points)
@@ -72,8 +76,8 @@ def kepler(a,e, mu):
     r = a*(1 - e*np.cos(E))
     x = r*np.cos(nu)
     y = r*np.sin(nu) 
-    v = np.sqrt((G*m_foci)/(r))
-    U = -(G*m_foci*m_planet)/(r)
+    v = np.sqrt((mu * (2/r - 1/a))) # vis-viva equation for non-circular orbits
+    U = -(mu*m_planet)/(r)
     KE = 0.5 *m_planet*(v**2)
     ME = KE + U
     return x, y, T, t, E, r, v, U, KE, ME
@@ -127,6 +131,7 @@ if __name__ == "__main__":
     plt.show()
     # HTML(anim.to_jshtml())  # For Jupyter Notebooks
 # ---------- Generate Data ----------
+
 x, y, T, t, E, r, v, U, KE, ME = kepler(a,e,mu)
 data = {
     'Time Elapsed (s)': t,

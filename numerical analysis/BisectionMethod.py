@@ -6,10 +6,10 @@ import numpy as np
 
 # ---------- Parameters ----------
 
-a = -2 # the leftmost boundary value (float)
-b = 1.5 # the rightmost boundary value (float)
-tol = 1e-6 # tolerance value (float)
-it = 100 # iterations (int), it > 0
+a = -1 # the leftmost boundary value (float)
+b = 1 # the rightmost boundary value (float)
+tol = 1e-6 # tolerance (float)
+it = 50 # iterations (int), it > 0
 
 # ---------- Bisection Code ----------
 
@@ -17,20 +17,21 @@ def f(x):
     """ 
     This is the function we are finding the root of, manipulate this to change the function 
     """
-    return 3*(x+1)*(x-0.5)*(x-1)
+    return (x**2)-x-1
 
 def bisection(a,b):
     """
     Uses the bisection method to find the root of a function f(x) within the interval [a,b]
     Inputs:
-    a : leftmost boundary value (float)
-    b : float : rightmost boundary value (float)
-    tol : float : tolerance value (float)
-    it : int : number of iterations to perform (int), it > 0
+    a: leftmost boundary value (float)
+    b: rightmost boundary value (float)
+    tol: tolerance value (float)
+    it: number of iterations (int)
     Outputs:
-    m : float : approximated root value (float)
+    m: approximated root (float)
     Assumptions:
     f(a) and f(b) must have opposite signs
+    f(x) is continous on [a,b]
     """
     if f(a) * f(b) > 0: # bisection N/A
         print("The bisection method does not work under these conditions")
@@ -51,6 +52,8 @@ def bisection(a,b):
     return m
 root = bisection(a,b)
 print(f"{root} is the approximated root after {it} iterations of the given function")
+
+ # --------- Plot ----------
 x_values = np.linspace(a,b,100)
 y_values = f(x_values)
 plt.plot(x_values,y_values, label='Function', color='dodgerblue')
